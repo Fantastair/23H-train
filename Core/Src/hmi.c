@@ -1,0 +1,320 @@
+#include "hmi.h"
+#include "main.h"
+#include "usart.h"
+#include "math.h"
+#include "dds.h"
+
+char orderBuffer[64];                       // 发送指令缓冲区
+uint8_t *order = (uint8_t *)orderBuffer;    // 指令缓冲区指针
+uint8_t receive_byte[32] = {0};             // 接收数据缓冲区
+uint8_t receive_byte_index = 0;             // 接收数据索引
+
+
+void HMI_Init(void)
+{
+  HAL_UART_Receive_IT(&huart1, receive_byte, 1);
+}
+
+
+/**
+ * @brief 发送指令到 HMI
+ * @param length 指令的长度
+ * @note 会自动在指令末尾添加三个 255 字节作为结束标志，确保 order 数组有足够的空间来存储这些字节。
+ */
+void HMI_SendOrder(int length)
+{
+    orderBuffer[length] = orderBuffer[length + 1] = orderBuffer[length + 2] = 255;
+    HAL_UART_Transmit(&huart1, order, length + 3, HAL_MAX_DELAY);
+}
+
+/**
+ * @brief 发送数据到 HMI
+ * @param data 要发送的数据指针
+ * @param length 数据的长度
+ */
+void HMI_SendData(uint8_t *data, int length)
+{
+    HAL_UART_Transmit(&huart1, data, length, HAL_MAX_DELAY);
+}
+
+uint8_t debugLines = 0;    // 调试信息行计数
+uint8_t clear_debug_order[19] = "debug.t0.txt=\"\"\xff\xff\xff";
+/**
+ * @brief 发送调试信息到 HMI
+ * @param length 指令的长度
+ */
+void HMI_SendDebug(int length)
+{
+    debugLines++;
+    if (debugLines > 16)
+    {
+        debugLines = 1;
+        HAL_UART_Transmit(&huart1, clear_debug_order, 18, HAL_MAX_DELAY);
+    }
+    HMI_SendOrder(length);
+}
+
+/**
+ * @brief 将指令添加到缓冲区
+ * @param str 要添加的字符串
+ * @param startIndex 缓冲区的起始索引
+ * @return 返回下一个可用的索引位置。
+ */
+int HMI_AddString(const char *str, int startIndex)
+{
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        orderBuffer[i + startIndex] = str[i];
+        i++;
+    }
+    return startIndex + i;
+}
+
+/**
+ * @brief 将整数添加到缓冲区
+ * @param value 要添加的整数值
+ * @param startIndex 缓冲区的起始索引
+ * @return 返回下一个可用的索引位置。
+ */
+int HMI_AddInt(int value, int startIndex)
+{
+    int i = 0;
+    if (value < 0)
+    {
+        orderBuffer[startIndex++] = '-';
+        value = -value;
+    }
+    
+    // 将整数转换为字符串
+    if (value == 0)
+    {
+        orderBuffer[startIndex++] = '0';
+        return startIndex;
+    }
+
+    int temp = value;
+    while (temp > 0)
+    {
+        temp /= 10;
+        i++;
+    }
+
+    for (int j = i - 1; j >= 0; j--)
+    {
+        orderBuffer[startIndex + j] = (value % 10) + '0';
+        value /= 10;
+    }
+    
+    return startIndex + i;
+}
+
+/**
+ * @brief 将双精度浮点数添加到缓冲区
+ * @param value 要添加的双精度浮点数值
+ * @param startIndex 缓冲区的起始索引
+ * @param precision 小数点后保留的位数
+ * @return 返回下一个可用的索引位置。
+ */
+int HMI_AddDouble(double value, int startIndex, int precision)
+{
+    if (value < 0)
+    {
+        orderBuffer[startIndex++] = '-';
+        value = -value;
+    }
+
+    // 将整数部分添加到缓冲区
+    int intPart = (int)value;
+    startIndex = HMI_AddInt(intPart, startIndex);
+
+    // 添加小数点
+    orderBuffer[startIndex++] = '.';
+
+    // 将小数部分添加到缓冲区
+    intPart = (int)((value - intPart) * Hmi_Pow(10, precision));
+    if (intPart == 0 && precision > 0)
+    {
+        for (int j = 0; j < precision; j++)
+        {
+            orderBuffer[startIndex++] = '0';
+        }
+        return startIndex;
+    }
+    else
+    {
+        // 添加小数部分
+        return HMI_AddInt(intPart, startIndex);
+    }
+}
+
+/**
+ * @brief 将十六进制数添加到缓冲区
+ * @param value 要添加的十六进制数值
+ * @param startIndex 缓冲区的起始索引
+ * @return 返回下一个可用的索引位置。
+ */
+int HMI_AddHex(uint32_t value, int startIndex)
+{
+    int i = 0;
+    static char hexDigits[] = "0123456789ABCDEF";
+    startIndex = HMI_AddString("0x", startIndex);
+
+    // 处理0的情况
+    if (value == 0)
+    {
+        orderBuffer[startIndex++] = '0';
+        return startIndex;
+    }
+
+    // 计算十六进制数的长度
+    uint32_t temp = value;
+    while (temp > 0)
+    {
+        temp /= 16;
+        i++;
+    }
+
+    // 将十六进制数转换为字符串
+    for (int j = i - 1; j >= 0; j--)
+    {
+        orderBuffer[startIndex + j] = hexDigits[value % 16];
+        value /= 16;
+    }
+    
+    return startIndex + i;
+}
+
+/**
+ * @brief 将二进制数添加到缓冲区
+ * @param value 要添加的二进制数值
+ * @param startIndex 缓冲区的起始索引
+ * @return 返回下一个可用的索引位置。
+ */
+int HMI_AddBin(uint32_t value, int startIndex)
+{
+    int i = 0;
+    startIndex = HMI_AddString("0b", startIndex);
+
+    // 处理0的情况
+    if (value == 0)
+    {
+        orderBuffer[startIndex++] = '0';
+        return startIndex;
+    }
+
+    // 计算二进制数的长度
+    uint32_t temp = value;
+    while (temp > 0)
+    {
+        temp /= 2;
+        i++;
+    }
+
+    // 将二进制数转换为字符串
+    for (int j = i - 1; j >= 0; j--)
+    {
+        orderBuffer[startIndex + j] = (value % 2) + '0';
+        value /= 2;
+    }
+    
+    return startIndex + i;
+}
+
+
+/**
+ * @brief 计算 base 的 exp 次幂
+ * @param base 底数
+ * @param exp 指数
+ * @return 返回计算结果
+ */
+int Hmi_Pow(int base, int exp)
+{
+    int result = 1;
+    for (int i = 0; i < exp; i++)
+    {
+        result *= base;
+    }
+    return result;
+}
+
+
+uint8_t state = 0;        // 接收状态
+double freq_temp = 0;     // 接收频率数值缓存
+uint8_t freq_time = 0;    // 接收频率数据次数
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART1)
+    {
+        if (state == 0)    // 正常接受数据
+        {
+            // 处理接收到的数据
+            switch (receive_byte[receive_byte_index++])
+            {
+                case 0x01:    // 关闭DDS
+                    DDS_SetWaveform(NONE_WAVEFORM);
+                    break;
+                case 0x02:    // 正弦波
+                    DDS_SetWaveform(SINE_WAVEFORM);
+                    break;
+                case 0x03:    // 三角波
+                    DDS_SetWaveform(TRIANGLE_WAVEFORM);
+                    break;
+                case 0x04:    // 方波
+                    DDS_SetWaveform(SQUARE_WAVEFORM);
+                    break;
+                case 0x05:    // 设置频率
+                    state = 1;
+                    freq_temp = 0;
+                    freq_time = 0;
+                    break;
+                case 0x06:    // 设置相位
+                    break;
+                case 0x07:    // 清空调试信息
+                    debugLines = 0;
+                    break;
+                default:
+                    // 无效命令或未处理的命令
+                    break;
+            }
+        }
+        else if (state == 1)    // 接受频率数据
+        {
+            freq_time++;
+            freq_temp += (receive_byte[receive_byte_index++] << (8 * (freq_time - 1)));
+            if (freq_time == 4)
+            {
+                DDS_SetFreq(freq_temp / 10000);
+                HMI_UpdateFreq();
+                state = 0;
+                {
+                    int index = 0;
+                    index = HMI_AddString("debug.t0.txt+=\"Display set DDS_FREQ: ", index);
+                    index = HMI_AddDouble(freq_temp / 10000, index, 4);
+                    index = HMI_AddString(" Hz\r\n\"", index);
+                    HMI_SendDebug(index);
+                }
+            }
+        }
+        if (receive_byte_index >= sizeof(receive_byte))
+        {
+            receive_byte_index = 0;
+        }
+
+        HAL_UART_Receive_IT(huart, receive_byte + receive_byte_index, 1);
+    }
+}
+
+
+/**
+ * @brief 更新 HMI 上的频率显示
+ * @note 该函数将当前 DDS 频率以特定格式发送到 HMI，以便在界面上显示。
+ */
+void HMI_UpdateFreq(void)
+{
+    int index = 0;
+    index = HMI_AddString("dds.x0.val=", index);
+    index = HMI_AddInt(DDS_GetFreq() * 10000, index);
+    HMI_SendOrder(index);
+}
