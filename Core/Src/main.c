@@ -219,47 +219,11 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
   DDS_Init();
 
-  // HAL_Delay(1000);
-
-  int index = 0;
-
   ADC_DMA_Start();
   FFT_Start(voltage, fft_output, fft_mag, 1024, wave_val);
   // int16_t dft_voltage[1000];
   // Transmit_adc_to_int16(dft_voltage);
   // process_frequency(dft_voltage, 5, 5);
-
-  for (int i = 459; i > 0; i--)
-  {
-    index = 0;
-    index = HMI_AddString("add s0.id,0,", index);
-    int mag_index = 512 * i / 460;
-    float mag = fft_mag[mag_index] * (512.0f * i / 460.0f - mag_index) + 
-                fft_mag[mag_index + 1] * (mag_index + 1 - 512.0f * i / 460.0f);
-    int mag_int;
-    if (mag * 255.0f < 1)
-    {
-      mag_int = (int)(250.0f * mag * 1000);
-    }
-    else
-    {
-      mag_int = (int)(255.0f * mag);
-    }
-    index = HMI_AddInt(mag_int, index);
-    HMI_SendOrder(index);
-    if (i % 40 == 0)
-    {
-      index = 0;
-      index = HMI_AddString("debug.t0.txt+=\"mag: ", index);
-      index = HMI_AddDouble(255.0 * mag, index, 6);
-      index = HMI_AddString("    ", index);
-      index = HMI_AddDouble(mag, index, 6);
-      index = HMI_AddString("    ", index);
-      index = HMI_AddInt(mag_int, index);
-      index = HMI_AddString("\r\n\"", index);
-      HMI_SendDebug(index);
-    }
-  }
 
   while (1)
   {
