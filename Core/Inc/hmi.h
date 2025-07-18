@@ -18,4 +18,4 @@ int HMI_AddBin(uint32_t value, int startIndex);
 int Hmi_Pow(int base, int exp);
 
 void HMI_UpdateFreq(void);
-// void HMI_
+void HMI_UpdateFFT(void);

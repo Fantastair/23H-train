@@ -3,6 +3,7 @@
 #include "usart.h"
 #include "math.h"
 #include "dds.h"
+#include "fft.h"
 
 char orderBuffer[64];                       // 发送指令缓冲区
 uint8_t *order = (uint8_t *)orderBuffer;    // 指令缓冲区指针
@@ -118,34 +119,51 @@ int HMI_AddInt(int value, int startIndex)
  */
 int HMI_AddDouble(double value, int startIndex, int precision)
 {
-    if (value < 0)
-    {
+    // 1. 处理负号并记录原始符号
+    int isNegative = (value < 0);
+    double absValue = fabs(value);
+
+    // 2. 计算四舍五入因子
+    double factor = Hmi_Pow(10.0, precision);
+    
+    // 3. 整体四舍五入（避免分离计算导致的进位错误）
+    double rounded = round(absValue * factor) / factor;
+    
+    // 4. 重新分离整数和小数部分
+    double integerPart;
+    double fractionalPart = modf(rounded, &integerPart);
+    
+    // 5. 处理负号输出
+    if (isNegative) {
         orderBuffer[startIndex++] = '-';
-        value = -value;
     }
-
-    // 将整数部分添加到缓冲区
-    int intPart = (int)value;
-    startIndex = HMI_AddInt(intPart, startIndex);
-
-    // 添加小数点
+    
+    // 6. 输出整数部分
+    startIndex = HMI_AddInt((int)integerPart, startIndex);
+    
+    // 7. 输出小数点
     orderBuffer[startIndex++] = '.';
-
-    // 将小数部分添加到缓冲区
-    intPart = (int)((value - intPart) * Hmi_Pow(10, precision));
-    if (intPart == 0 && precision > 0)
-    {
-        for (int j = 0; j < precision; j++)
-        {
-            orderBuffer[startIndex++] = '0';
+    
+    // 8. 处理小数部分（考虑四舍五入和补零）
+    if (precision > 0) {
+        // 获取精确的小数部分整数表示
+        int fracInt = (int)round(fractionalPart * factor);
+        
+        // 处理进位产生的整数部分变化
+        if (fracInt >= (int)factor) {
+            fracInt = 0;
+            // 注意：整数部分已在第4步通过modf处理进位
         }
-        return startIndex;
+        
+        // 按精度位数补零
+        int divisor = (int)factor / 10;
+        for (int i = 0; i < precision; i++) {
+            int digit = (divisor > 0) ? (fracInt / divisor) % 10 : 0;
+            orderBuffer[startIndex++] = '0' + digit;
+            divisor /= 10;
+        }
     }
-    else
-    {
-        // 添加小数部分
-        return HMI_AddInt(intPart, startIndex);
-    }
+    return startIndex;
 }
 
 /**
@@ -245,6 +263,7 @@ uint8_t freq_time = 0;    // 接收频率数据次数
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+    // int index = 0;
     if (huart->Instance == USART1)
     {
         if (state == 0)    // 正常接受数据
@@ -252,31 +271,34 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             // 处理接收到的数据
             switch (receive_byte[receive_byte_index++])
             {
-                case 0x01:    // 关闭DDS
-                    DDS_SetWaveform(NONE_WAVEFORM);
-                    break;
-                case 0x02:    // 正弦波
-                    DDS_SetWaveform(SINE_WAVEFORM);
-                    break;
-                case 0x03:    // 三角波
-                    DDS_SetWaveform(TRIANGLE_WAVEFORM);
-                    break;
-                case 0x04:    // 方波
-                    DDS_SetWaveform(SQUARE_WAVEFORM);
-                    break;
-                case 0x05:    // 设置频率
-                    state = 1;
-                    freq_temp = 0;
-                    freq_time = 0;
-                    break;
-                case 0x06:    // 设置相位
-                    break;
-                case 0x07:    // 清空调试信息
-                    debugLines = 0;
-                    break;
-                default:
-                    // 无效命令或未处理的命令
-                    break;
+            case 0x01:    // 关闭DDS
+                DDS_SetWaveform(NONE_WAVEFORM);
+                break;
+            case 0x02:    // 正弦波
+                DDS_SetWaveform(SINE_WAVEFORM);
+                break;
+            case 0x03:    // 三角波
+                DDS_SetWaveform(TRIANGLE_WAVEFORM);
+                break;
+            case 0x04:    // 方波
+                DDS_SetWaveform(SQUARE_WAVEFORM);
+                break;
+            case 0x05:    // 设置频率
+                state = 1;
+                freq_temp = 0;
+                freq_time = 0;
+                break;
+            case 0x06:    // 设置相位
+                break;
+            case 0x07:    // 清空调试信息
+                debugLines = 0;
+                break;
+            case 0x08:    // 开始 FFT 处理
+                fft_flag = 1;
+                break;
+            default:
+                // 无效命令或未处理的命令
+                break;
             }
         }
         else if (state == 1)    // 接受频率数据
@@ -317,4 +339,30 @@ void HMI_UpdateFreq(void)
     index = HMI_AddString("dds.x0.val=", index);
     index = HMI_AddInt(DDS_GetFreq() * 10000, index);
     HMI_SendOrder(index);
+}
+
+float curve_value_float[460];    // 用于存储曲线数据的数组（浮点数形式）
+/**
+ * @brief 更新 HMI 上的 FFT 频谱图显示
+ */
+void HMI_UpdateFFT(void)
+{
+  float max_value = 0.0f;
+
+  for (int i = 459; i > -1; i--)
+  {
+    int mag_index = 512 * i / 460;
+    float mag = fft_mag[mag_index];
+    curve_value_float[i] = mag;
+    if (mag > max_value) { max_value = mag; }
+  }
+
+  int index = 0;
+  for (int i = 459; i > -1; i--)
+  {
+    index = 0;
+    index = HMI_AddString("add s0.id,0,", index);
+    index = HMI_AddInt((uint8_t)(255 * curve_value_float[i] / max_value), index);
+    HMI_SendOrder(index);
+  }
 }

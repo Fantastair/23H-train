@@ -46,8 +46,9 @@ void DDS_Init(void)
 { 
   DDS_SetWaveform(SINE_WAVEFORM);
   DDS_SetSystemClock(1000000);
-  DDS_SetFreq(1000);
+  DDS_SetFreq(100000);
   HMI_UpdateFreq();
+  HAL_Delay(500);
 }
 
 /**

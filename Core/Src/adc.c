@@ -22,10 +22,6 @@
 
 /* USER CODE BEGIN 0 */
 
-#include "math.h"
-
-uint16_t adc_value[SAMPLENUM];
-
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -109,7 +105,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
     hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-    hdma_adc1.Init.Mode = DMA_CIRCULAR;
+    hdma_adc1.Init.Mode = DMA_NORMAL;
     hdma_adc1.Init.Priority = DMA_PRIORITY_LOW;
     hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
     if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
@@ -150,57 +146,5 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
-void ADC_DMA_Start(void)
-{
-	HAL_ADC_Start_DMA(&hadc1,(uint32_t *)adc_value,SAMPLENUM);
-}
-
-void Ger_Fact_Voltage(float *initial,float *sampling)
-{
-  for(uint32_t i=0;i<SAMPLENUM ;i++)
-  {
-			initial[i] = (sampling[i]- Rasing_Voltage_mv) / 1000.0f;
-	}
-}
-
-void Get_RMS_Voltage(float *initial ,double *voltage_RMS)
-{
-	double voltage_SUM_RMS=0;
-	for(uint32_t i = 0; i < SAMPLENUM; i++)
-  {
-		voltage_SUM_RMS += initial[i] * initial[i];
-	}
-	(*voltage_RMS) = sqrt(voltage_SUM_RMS / SAMPLENUM);
-}
-
-void Get_Equivalent_Resistance(double *equivalent_resistance, double *voltage_RMS)
-{
-	*equivalent_resistance = (*voltage_RMS) / sqrt(Input_Voltage_RMS_mv * Input_Voltage_RMS_mv - (*voltage_RMS) * (*voltage_RMS)) * R;
-}
-
-void GET_LCR_Value (char *type ,double *equivalent_resistance,double *value)
-{
-	double w0 = 2 * PI * Frequency;
-	switch(*type)
-  {
-		case 'L':
-			*value = *equivalent_resistance / w0 * 1000;
-      break;
-		case 'C':
-			*value = 1000000000 / (w0 * (*equivalent_resistance));
-      break;
-    default:
-      break;
-	}
-}
-
-void Arry_To_Arry(float *buffer1, float *buffer2, uint32_t num, float times)
-{
-	for(uint32_t i = 0; i < num; i++)
-  {
-		buffer1[i] = buffer2[i] * times;
-	}
-}
 
 /* USER CODE END 1 */
