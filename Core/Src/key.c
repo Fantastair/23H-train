@@ -14,9 +14,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
             DDS_SetFreqWord(DDS_GetFreqWord() + 1); // 增加频率
             HMI_UpdateFreq();
             int index = 0;
-            index = HMI_AddString("debug.t0.txt+=\"DDS_FREQ_WORD+1: ", index);
+            index = HMI_AddString("DDS_FREQ_WORD+1: ", index);
             index = HMI_AddInt(DDS_GetFreqWord(), index);
-            index = HMI_AddString("\r\n\"", index);
             HMI_SendDebug(index);
         }
         else
@@ -34,9 +33,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
             DDS_SetFreqWord(DDS_GetFreqWord() - 1); // 减少频率
             HMI_UpdateFreq();
             int index = 0;
-            index = HMI_AddString("debug.t0.txt+=\"DDS_FREQ_WORD-1: ", index);
+            index = HMI_AddString("DDS_FREQ_WORD-1: ", index);
             index = HMI_AddInt(DDS_GetFreqWord(), index);
-            index = HMI_AddString("\r\n\"", index);
             HMI_SendDebug(index);
         }
         else

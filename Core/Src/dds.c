@@ -58,28 +58,28 @@ void DDS_Init(void)
 void DDS_SetWaveform(enum DDS_Waveform waveform)
 {
     int index = 0;
-    index = HMI_AddString("debug.t0.txt+=\"set DDS_WAVEFORM: ", index);
+    index = HMI_AddString("set DDS_WAVEFORM: ", index);
     switch (waveform)
     {
     case SINE_WAVEFORM:
         // 设置为正弦波
         DDS_WriteData(0x2000);
-        index = HMI_AddString("SINE_WAVEFORM\r\n\"", index);
+        index = HMI_AddString("SINE_WAVEFORM", index);
         break;
     case SQUARE_WAVEFORM:
         // 设置为方波
         DDS_WriteData(0x2028);
-        index = HMI_AddString("SQUARE_WAVEFORM\r\n\"", index);
+        index = HMI_AddString("SQUARE_WAVEFORM", index);
         break;
     case TRIANGLE_WAVEFORM:
         // 设置为三角波
         DDS_WriteData(0x2002);
-        index = HMI_AddString("TRIANGLE_WAVEFORM\r\n\"", index);
+        index = HMI_AddString("TRIANGLE_WAVEFORM", index);
         break;
     default:
         // 无效的波形类型
         DDS_WriteData(0x00C0);
-        index = HMI_AddString("NONE_WAVEFORM\r\n\"", index);
+        index = HMI_AddString("NONE_WAVEFORM", index);
         break;
     }
     HMI_SendDebug(index);

@@ -52,7 +52,9 @@ void HMI_SendDebug(int length)
         debugLines = 1;
         HAL_UART_Transmit(&huart1, clear_debug_order, 18, HAL_MAX_DELAY);
     }
-    HMI_SendOrder(length);
+    HAL_UART_Transmit(&huart1, (uint8_t *)"debug.t0.txt+=\"", 15, HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1, order, length, HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1, (uint8_t *)"\r\n\"\xff\xff\xff", 6, HAL_MAX_DELAY);
 }
 
 /**
@@ -313,9 +315,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                 state = 0;
                 {
                     int index = 0;
-                    index = HMI_AddString("debug.t0.txt+=\"Display set DDS_FREQ: ", index);
+                    index = HMI_AddString("Display set DDS_FREQ: ", index);
                     index = HMI_AddDouble(freq_temp / 10000, index, 4);
-                    index = HMI_AddString(" Hz\r\n\"", index);
+                    index = HMI_AddString(" Hz", index);
                     HMI_SendDebug(index);
                 }
             }

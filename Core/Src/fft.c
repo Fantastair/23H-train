@@ -440,14 +440,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
     FFT_Process();
     HMI_UpdateFFT();
     int index = 0;
-    index = HMI_AddString("debug.t0.txt+=\"DFT Phase: ", index);
+    index = HMI_AddString("DFT Phase: ", index);
     index = HMI_AddDouble(DFT_Process(0), index, 6);
-    index = HMI_AddString("\r\n\"", index);
     HMI_SendDebug(index);
     index = 0;
-    index = HMI_AddString("debug.t0.txt+=\"DFT Phase: ", index);
+    index = HMI_AddString("DFT Phase: ", index);
     index = HMI_AddDouble(DFT_Process(1), index, 6);
-    index = HMI_AddString("\r\n\"", index);
     HMI_SendDebug(index);
   }
 }
