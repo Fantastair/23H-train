@@ -14,7 +14,7 @@ float voltage[FFT_LEN] = { 0.0f };
 float fft_output[FFT_LEN * 2] = { 0.0f };
 float fft_mag[FFT_LEN / 2] = { 0.0f };
 int16_t dft_voltage[1000];
-uint8_t fft_flag = 0;
+// uint8_t fft_flag = 0;
 
 
 // DAC正弦缓冲区
@@ -97,13 +97,15 @@ void Set_TIM3_Rate(uint32_t psc_1, uint32_t arr_1)
   uint32_t new_arr = arr_1 - 1;	
   HAL_TIM_Base_Stop(&htim3);
 
-  TIM3->PSC = new_psc;
-  TIM3->ARR = new_arr;
-  TIM3->CNT = 0;
+  // TIM3->PSC = new_psc;
+  __HAL_TIM_SET_PRESCALER(&htim3, new_psc);
+  // TIM3->ARR = new_arr;
+  __HAL_TIM_SET_AUTORELOAD(&htim3, new_arr);
+  // TIM3->CNT = 0;
+  __HAL_TIM_SET_COUNTER(&htim3, 0);
   TIM3->EGR = TIM_EGR_UG;
 
   if (HAL_TIM_Base_Start(&htim3) != HAL_OK) { return; }
-  HAL_Delay(100);
 }
 
 uint16_t Max_Float_WithinRange(float Data[], uint16_t Left, uint16_t Right)
@@ -337,7 +339,7 @@ void FFT_Start(float voltage[], float fft_output[], float fft_mag[], uint16_t le
     uint16_t temp = index[0];
     index[0] = index[1];
     index[1] = temp;
-  }  
+  }
   // 填充谐波索引
   fill_index(fft_mag, len, index_3, index_5, index);
   // 判断波形类型
@@ -360,11 +362,10 @@ double corr1000_200(int16_t* data,const int16_t* mask)\
 /**
  * @brief 获得采样的相位
  * @param geted_val 采样值数组
- * @param f 频率
  * @param template_row 模板行
  * @return 相位
  */
-double process_frequency(int16_t* geted_val, int f, int template_row)
+double process_frequency(int16_t* geted_val, int template_row)
 {
   double sin_corr = corr1000_200(geted_val, DAC_SIN + 200 * template_row);
   double cos_corr = corr1000_200(geted_val, DAC_COS + 200 * template_row);
@@ -421,4 +422,32 @@ double Get_Delta_Fre(double delta_phase[], double now_fre, double delay_time)
 void FFT_Process(void)
 {
   FFT_Start(voltage, fft_output, fft_mag, FFT_LEN, wave_val);
+}
+
+/**
+ * @brief DFT处理函数
+ */
+double DFT_Process(uint8_t wave_index)
+{
+  Transmit_adc_to_int16(dft_voltage);
+  return process_frequency(dft_voltage, wave_val[wave_index].fre / 5 - 2);
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+  if (hadc->Instance == ADC1)
+  {
+    FFT_Process();
+    HMI_UpdateFFT();
+    int index = 0;
+    index = HMI_AddString("debug.t0.txt+=\"DFT Phase: ", index);
+    index = HMI_AddDouble(DFT_Process(0), index, 6);
+    index = HMI_AddString("\r\n\"", index);
+    HMI_SendDebug(index);
+    index = 0;
+    index = HMI_AddString("debug.t0.txt+=\"DFT Phase: ", index);
+    index = HMI_AddDouble(DFT_Process(1), index, 6);
+    index = HMI_AddString("\r\n\"", index);
+    HMI_SendDebug(index);
+  }
 }

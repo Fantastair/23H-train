@@ -294,7 +294,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                 debugLines = 0;
                 break;
             case 0x08:    // 开始 FFT 处理
-                fft_flag = 1;
+                // fft_flag = 1;
+                FFT_Start_ADC();
                 break;
             default:
                 // 无效命令或未处理的命令

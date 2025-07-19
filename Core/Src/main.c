@@ -117,15 +117,6 @@ int main(void)
 
   while (1)
   {
-    if (fft_flag)
-    {
-      fft_flag = 0;
-      HMI_SendDebug(index);
-      FFT_Start_ADC();
-      HAL_Delay(10);
-      FFT_Process();
-      HMI_UpdateFFT();
-    }
     HAL_Delay(15);
     /* USER CODE END WHILE */
 

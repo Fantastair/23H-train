@@ -16,7 +16,7 @@ typedef struct{
 extern uint16_t adc_value[];
 extern Wave wave_val[2];
 extern float fft_mag[FFT_LEN / 2];
-extern uint8_t fft_flag;
+// extern uint8_t fft_flag;
 
 void FFT_Start_ADC(void);
 
@@ -24,10 +24,11 @@ void FFT_Start(float voltage[], float fft_output[], float fft_mag[], uint16_t le
 
 void Transmit_adc_to_int16(int16_t geted_val[]);
 double corr1000_200(int16_t *data, const int16_t *mask);
-double process_frequency(int16_t *res, int f, int template_row) ;
+double process_frequency(int16_t *res, int template_row) ;
 double Get_Delta_Phase( double phase_diff[]);
 double Get_Delta_Fre(double delta_phase[], double now_fre, double delay_time);
 
 void FFT_Process(void);
+double DFT_Process(uint8_t wave_index);
 
 #endif
