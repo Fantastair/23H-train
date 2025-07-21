@@ -1,4 +1,9 @@
-#include "main.h"
+#ifndef __HMI_H__
+#define __HMI_H__
+
+
+#include "stm32f4xx_hal.h"
+#include "dds.h"
 
 extern char orderBuffer[64];
 extern uint8_t receive_byte[32];
@@ -19,3 +24,9 @@ int Hmi_Pow(int base, int exp);
 
 void HMI_UpdateFreq(void);
 void HMI_UpdateFFT(void);
+void HMI_UpdateADC(void);
+void HMI_DrawWaveform(float freq_a, float freq_b, DDS_Waveform waveform_a, DDS_Waveform waveform_b, float value_a, float value_b);
+void HMI_ShowFreqA(float freq, float freq_);
+void HMI_ShowFreqB(float freq);
+
+#endif

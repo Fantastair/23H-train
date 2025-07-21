@@ -26,11 +26,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <string.h>
-
-#include "dds.h"
 #include "led.h"
+#include "key.h"
 #include "hmi.h"
+#include "dds.h"
 #include "fft.h"
 /* USER CODE END Includes */
 
@@ -63,6 +62,11 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+uint8_t fft_debug = 0;        // FFT 调试标志
+uint8_t process_state = 0;    // 处理状态
+float freqA_temp = 0.0f;
+float freqA_temp_ = 0.0f;
 
 /* USER CODE END 0 */
 
@@ -100,6 +104,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM4_Init();
   MX_TIM3_Init();
+  MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -108,16 +113,103 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
   HMI_Init();
-  HAL_TIM_Base_Start(&htim3);
-  HAL_TIM_Base_Start(&htim4);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
   DDS_Init();
-
-  int index = 0;
 
   while (1)
   {
-    HAL_Delay(15);
+    if (adc_completed)
+    {
+      if (fft_debug)    // FFT 调试，显示 adc 数据和 fft 频谱
+      {
+        fft_debug = 0;
+        FFT_PrepareData(adc_raw);
+        FFT_Process();
+        HMI_UpdateADC();
+        HMI_UpdateFFT();
+        int index = 0;
+        index = HMI_AddString("frequency: ", index);
+        index = HMI_AddDouble(FFT_GetBaseFrequency(fft_main_index_B), index, 4);
+        index = HMI_AddString(" Hz", index);
+        HMI_SendDebug(index);
+        index = 0;
+        index = HMI_AddString("phase: ", index);
+        index = HMI_AddDouble(FFT_GetPhase(fft_main_index_B), index, 4);
+        HMI_SendDebug(index);
+      }
+      else
+      {
+        int index = 0;
+        switch (process_state)
+        {
+        case 1:    // 重建信号
+          FFT_PrepareData(adc_raw);
+          FFT_Process();
+          FFT_FindHarmonicValues();
+          FFT_JudgeWaveform();
+
+          float phase_A1 = FFT_GetPhase(fft_main_index_A);
+          float phase_B1 = FFT_GetPhase(fft_main_index_B);
+          FFT_PrepareData(adc_raw + SAMPLE_NUM);
+          FFT_Process();
+          float phase_A2 = FFT_GetPhase(fft_main_index_A);
+          float phase_B2 = FFT_GetPhase(fft_main_index_B);
+          float freq_A = FFT_CorrectFrequency(phase_A1, phase_A2, FFT_GetBaseFrequency(fft_main_index_A));
+          float freq_B = FFT_CorrectFrequency(phase_B1, phase_B2, FFT_GetBaseFrequency(fft_main_index_B));
+          DDS_SetWaveform(waveform_A);
+          DDS_SetFreq(freq_A);
+
+          HMI_DrawWaveform(freq_A, freq_B, waveform_A, waveform_B, fft_main_value_A, fft_main_value_B);
+
+          index = 0;
+          index = HMI_AddString("main.t0.txt=\"分析完成\r\n正在重建信号 C\"", index);
+          HMI_SendOrder(index);
+
+          HMI_ShowFreqA(freq_A, freq_A);
+          HMI_ShowFreqB(freq_B);
+
+          FFT_StartADC(&hadc1);
+          process_state = 2;
+          break;
+        case 2:    // 微调频率
+          if (adc_completed == 1)
+          {
+            FFT_PrepareData(adc_raw);
+            FFT_Process();
+            float phase_A1 = FFT_GetPhase(fft_main_index_A);
+            FFT_PrepareData(adc_raw + SAMPLE_NUM);
+            FFT_Process();
+            float phase_A2 = FFT_GetPhase(fft_main_index_A);
+            freqA_temp = FFT_CorrectFrequency(phase_A1, phase_A2, FFT_GetBaseFrequency(fft_main_index_A));
+
+            HMI_ShowFreqA(freqA_temp, freqA_temp_);
+
+            FFT_StartADC(&hadc3);
+          }
+          else if (adc_completed == 2)
+          {
+            FFT_PrepareData(adc_raw);
+            FFT_Process();
+            float phase_A1_ = FFT_GetPhase(fft_main_index_A);
+            FFT_PrepareData(adc_raw + SAMPLE_NUM);
+            FFT_Process();
+            float phase_A2_ = FFT_GetPhase(fft_main_index_A);
+            freqA_temp_ = FFT_CorrectFrequency(phase_A1_, phase_A2_, FFT_GetBaseFrequency(fft_main_index_A));
+
+            if (freqA_temp_ < freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() + 1); }
+            else if (freqA_temp_ > freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() - 1); }
+
+            HMI_ShowFreqA(freqA_temp, freqA_temp_);
+
+            FFT_StartADC(&hadc1);
+          }
+          break;
+        default:
+          break;
+        }
+      }
+      adc_completed = 0;
+    }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -38,13 +38,6 @@ extern TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN Private defines */
 
-typedef enum {
-  SAMPLE_RATE_20K,   // 20kHz
-  SAMPLE_RATE_1M ,    // 1.04MHz
-	MEASURE_1K,
-	SAMPLE_RATE_400K
-} SampleRateType;
-
 /* USER CODE END Private defines */
 
 void MX_TIM3_Init(void);
@@ -53,9 +46,6 @@ void MX_TIM4_Init(void);
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* USER CODE BEGIN Prototypes */
-
-HAL_StatusTypeDef TIM3_SetSampleRate(SampleRateType rate);
-SampleRateType    TIM3_GetCurrentSampleRate(void);
 
 /* USER CODE END Prototypes */
 

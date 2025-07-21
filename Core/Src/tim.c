@@ -22,20 +22,6 @@
 
 /* USER CODE BEGIN 0 */
 
-typedef struct {
-  uint32_t psc;
-  uint32_t arr;
-} TimerConfig;
-
-static const TimerConfig sampleRateConfigs[] = {
-  [SAMPLE_RATE_20K] = {.psc = 41, .arr = 99},    // 20kHz
-  [SAMPLE_RATE_1M]  = {.psc = 0, .arr = 80},      // 1.04MHz (84MHz/81  1.037MHz)
-   [MEASURE_1K]  = {.psc = 34, .arr = 74},
-	 [SAMPLE_RATE_400K]  = {.psc = 20, .arr = 9}
-};
-
-static SampleRateType currentSampleRate = SAMPLE_RATE_20K;
-
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim3;
@@ -47,8 +33,6 @@ void MX_TIM3_Init(void)
 
   /* USER CODE BEGIN TIM3_Init 0 */
 
-  currentSampleRate = SAMPLE_RATE_20K;
-
   /* USER CODE END TIM3_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -56,14 +40,11 @@ void MX_TIM3_Init(void)
 
   /* USER CODE BEGIN TIM3_Init 1 */
 
-  uint32_t init_psc = sampleRateConfigs[currentSampleRate].psc;
-  uint32_t init_arr = sampleRateConfigs[currentSampleRate].arr;
-
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 5;
+  htim3.Init.Prescaler = 1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 6;
+  htim3.Init.Period = 83;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -167,6 +148,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
   /* USER CODE END TIM4_MspInit 1 */
   }
 }
+
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
 {
 
@@ -223,47 +205,5 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
-HAL_StatusTypeDef TIM3_SetSampleRate(SampleRateType rate)
-{
-  if (rate == currentSampleRate)
-  {
-    return HAL_OK;
-  }
-
-  const TimerConfig* newConfig = &sampleRateConfigs[rate];
-
-  HAL_TIM_Base_Stop(&htim3);
-
-  TIM3->PSC = newConfig->psc;
-  TIM3->ARR = newConfig->arr;
-  TIM3->CNT = 0;
-
-  TIM3->EGR = TIM_EGR_UG;
-
-  if (HAL_TIM_Base_Start(&htim3) != HAL_OK)
-  {
-    return HAL_ERROR;
-  }
-
-  currentSampleRate = rate;
-
-  return HAL_OK;
-}
-
-SampleRateType TIM3_GetCurrentSampleRate(void)
-{
-  return currentSampleRate;
-}
-
-uint32_t TIM3_GetActualSampleRate(void)
-{
-  const uint32_t timerClk = 84000000;
-
-  uint32_t psc = TIM3->PSC + 1;
-  uint32_t arr = TIM3->ARR + 1;
-  
-  return timerClk / psc / arr;
-}
 
 /* USER CODE END 1 */

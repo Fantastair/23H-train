@@ -1,9 +1,11 @@
-#include "hmi.h"
-#include "main.h"
+#include "stm32f4xx_hal.h"
+#include "adc.h"
 #include "usart.h"
-#include "math.h"
+#include "hmi.h"
 #include "dds.h"
 #include "fft.h"
+#include "math.h"
+#include "arm_math.h"
 
 char orderBuffer[64];                       // 发送指令缓冲区
 uint8_t *order = (uint8_t *)orderBuffer;    // 指令缓冲区指针
@@ -11,9 +13,19 @@ uint8_t receive_byte[32] = {0};             // 接收数据缓冲区
 uint8_t receive_byte_index = 0;             // 接收数据索引
 
 
+/**
+ * @brief 初始化 HMI
+ */
 void HMI_Init(void)
 {
-  HAL_UART_Receive_IT(&huart1, receive_byte, 1);
+    HAL_UART_Receive_IT(&huart1, receive_byte, 1);
+    HAL_Delay(500);
+    int index = 0;
+    index = HMI_AddString("debug.t0.txt=\"\"", index);
+    HMI_SendOrder(index);
+    index = 0;
+    index = HMI_AddString("--- Launched ---", index);
+    HMI_SendDebug(index);
 }
 
 
@@ -263,9 +275,16 @@ uint8_t state = 0;        // 接收状态
 double freq_temp = 0;     // 接收频率数值缓存
 uint8_t freq_time = 0;    // 接收频率数据次数
 
+extern uint8_t fft_debug;
+extern uint8_t process_state;
+
+/**
+ * @brief USART 接收完成回调函数
+ * @param huart USART 句柄
+ */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    // int index = 0;
+    int index = 0;
     if (huart->Instance == USART1)
     {
         if (state == 0)    // 正常接受数据
@@ -295,9 +314,29 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             case 0x07:    // 清空调试信息
                 debugLines = 0;
                 break;
-            case 0x08:    // 开始 FFT 处理
-                // fft_flag = 1;
-                FFT_Start_ADC();
+            case 0x08:    // FFT_调试
+                fft_debug = 1;
+                index = 0;
+                index = HMI_AddString("--- FFT Debug ---", index);
+                HMI_SendDebug(index);
+                FFT_StartADC(&hadc1);
+                break;
+            case 0x09:    // 开始信号分离
+                fft_debug = 0;
+                process_state = 1;
+                index = 0;
+                index = HMI_AddString("--- Start Separation ---", index);
+                HMI_SendDebug(index);
+                index = 0;
+                index = HMI_AddString("main.t0.txt=\"正在分析信号 C\"", index);
+                HMI_SendOrder(index);
+                index = 0;
+                index = HMI_AddString("main.t1.txt=\"\"", index);
+                HMI_SendOrder(index);
+                index = 0;
+                index = HMI_AddString("main.t2.txt=\"\"", index);
+                HMI_SendOrder(index);
+                FFT_StartADC(&hadc1);
                 break;
             default:
                 // 无效命令或未处理的命令
@@ -344,19 +383,19 @@ void HMI_UpdateFreq(void)
     HMI_SendOrder(index);
 }
 
-float curve_value_float[460];    // 用于存储曲线数据的数组（浮点数形式）
+float fft_curve_temp[460];
 /**
  * @brief 更新 HMI 上的 FFT 频谱图显示
  */
 void HMI_UpdateFFT(void)
 {
   float max_value = 0.0f;
-
+ 
   for (int i = 459; i > -1; i--)
   {
     int mag_index = 512 * i / 460;
-    float mag = fft_mag[mag_index];
-    curve_value_float[i] = mag;
+    float mag = fft_outputbuf[mag_index];
+    fft_curve_temp[i] = mag;
     if (mag > max_value) { max_value = mag; }
   }
 
@@ -365,7 +404,135 @@ void HMI_UpdateFFT(void)
   {
     index = 0;
     index = HMI_AddString("add s0.id,0,", index);
-    index = HMI_AddInt((uint8_t)(255 * curve_value_float[i] / max_value), index);
+    index = HMI_AddInt((uint8_t)(255 * fft_curve_temp[i] / max_value), index);
     HMI_SendOrder(index);
   }
+}
+
+uint16_t adc_value_temp[460];
+/**
+ * @brief 更新 HMI 上的 ADC 数据显示
+ */
+void HMI_UpdateADC(void)
+{
+    uint16_t adc_max = 0, adc_min = 4095;
+    for (int i = 459; i > -1; i--)
+    {
+        int value_index = SAMPLE_NUM * i / 460;
+        adc_value_temp[i] = adc_raw[value_index];
+        if (adc_value_temp[i] > adc_max) { adc_max = adc_value_temp[i]; }
+        if (adc_value_temp[i] < adc_min) { adc_min = adc_value_temp[i]; }
+    }
+    for (int i = 459; i > -1; i--)
+    {
+        int index = 0;
+        index = HMI_AddString("add s0.id,1,", index);
+        index = HMI_AddInt((adc_value_temp[i] - adc_min) * 255 / (adc_max - adc_min), index);
+        HMI_SendOrder(index);
+    }
+}
+
+float wave_data_tempA[256];
+float wave_data_tempB[256];
+// uint8_t wave_data_temp[256];
+/**
+ * @brief 绘制波形到 HMI
+ * @param freq_a 波形 A 的频率
+ * @param freq_b 波形 B 的频率
+ * @param waveform_a 波形 A 的类型
+ * @param waveform_b 波形 B 的类型
+ * @param value_a 波形 A 的幅度
+ * @param value_b 波形 B 的幅度
+ */
+void HMI_DrawWaveform(float freq_a, float freq_b, DDS_Waveform waveform_a, DDS_Waveform waveform_b, float value_a, float value_b)
+{
+    const float period_a = 1.0f / freq_a;
+    for (int i = 0; i < 256; i++)
+    {
+        float phase = (float)i / 256.0f;
+        float sample;
+        switch(waveform_a)
+        {
+        case TRIANGLE_WAVEFORM:
+            sample = (phase < 0.5f) ? (2.0f * phase) : (2.0f * (1.0f - phase));
+            break;
+        default:
+            sample = 0.5f * (1.0f + sinf(2 * PI * phase));
+        }
+        wave_data_tempA[i] = sample;
+    }
+    float value_scale = value_b / value_a;
+    for (int i = 0; i < 256; i++)
+    {
+        float t = period_a * ((float)i / 256.0f);
+        float phase_b = fmodf(t * freq_b, 1.0f);
+        float sample;
+        switch(waveform_b)
+        {
+        case TRIANGLE_WAVEFORM:
+            sample = (phase_b < 0.5f) ? (2.0f * phase_b) : (2.0f * (1.0f - phase_b));
+            break;
+        default:
+            sample = 0.5f * (1.0f + sinf(2 * PI * phase_b));
+        }
+        wave_data_tempB[i] = sample * value_scale;
+    }
+    float offset_a = 0;
+    float offset_b = 0;
+    arm_mean_f32(wave_data_tempA, 256, &offset_a);
+    arm_mean_f32(wave_data_tempB, 256, &offset_b);
+    offset_a = 0.5f - offset_a;
+    offset_b = 0.5f - offset_b;
+    for (int i = 0; i < 256; i++)
+    {
+        int index = 0;
+        index = HMI_AddString("add s0.id,0,", index);
+        index = HMI_AddInt((uint8_t)(64.0f * (wave_data_tempA[i] + wave_data_tempB[i] + offset_a + offset_b) + 127), index);
+        HMI_SendOrder(index);
+        HAL_Delay(1);
+    }
+    for (int i = 0; i < 256; i++)
+    {
+        int index = 0;
+        index = HMI_AddString("add s0.id,1,", index);
+        index = HMI_AddInt((uint8_t)(64.0f * (wave_data_tempA[i] + offset_a) + 63), index);
+        HMI_SendOrder(index);
+        HAL_Delay(1);
+    }
+    for (int i = 0; i < 256; i++)
+    {
+        int index = 0;
+        index = HMI_AddString("add s0.id,2,", index);
+        index = HMI_AddInt((uint8_t)(64.0f * (wave_data_tempB[i] + offset_b)), index);
+        HMI_SendOrder(index);
+        HAL_Delay(1);
+    }
+}
+
+/**
+ * @brief 显示频率 A 的值
+ * @param freq A 的频率值
+ */
+void HMI_ShowFreqA(float freq, float freq_)
+{
+    int index = 0;
+    index = HMI_AddString("main.t1.txt=\"A  ", index);
+    index = HMI_AddDouble(freq, index, 4);
+    index = HMI_AddString(" Hz\r\nA' ", index);
+    index = HMI_AddDouble(freq_, index, 4);
+    index = HMI_AddString(" Hz\"", index);
+    HMI_SendOrder(index);
+}
+
+/**
+ * @brief 显示频率 B 的值
+ * @param freq B 的频率值
+ */
+void HMI_ShowFreqB(float freq)
+{
+    int index = 0;
+    index = HMI_AddString("main.t2.txt=\"B  ", index);
+    index = HMI_AddDouble(freq, index, 4);
+    index = HMI_AddString(" Hz\"", index);
+    HMI_SendOrder(index);
 }

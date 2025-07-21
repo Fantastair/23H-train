@@ -2,33 +2,39 @@
 #define __FFT_H__
 
 #include <stdint.h>
+#include "arm_math.h"
 
 #define FFT_LEN 1024
-#define SAMPLENUM 1024
+#define SAMPLE_NUM 1024
+#define SAMPLE_RATE 500000.0f
 #define PI 3.14159265358979f
 
-// 谐波参数结构体
-typedef struct{
-  uint8_t type;
-  int16_t fre;
-}Wave;
+extern uint16_t adc_raw[SAMPLE_NUM * 2];
+extern float32_t fft_outputbuf[FFT_LEN];
+extern float32_t fft_inputbuf[FFT_LEN * 2];
 
-extern uint16_t adc_value[];
-extern Wave wave_val[2];
-extern float fft_mag[FFT_LEN / 2];
-// extern uint8_t fft_flag;
+extern uint8_t adc_completed;
 
-void FFT_Start_ADC(void);
+extern float32_t fft_dc_offset;
+extern float32_t fft_main_value_A;
+extern uint32_t  fft_main_index_A;
+extern float32_t fft_main_value_B;
+extern uint32_t  fft_main_index_B;
+extern DDS_Waveform waveform_A;
+extern DDS_Waveform waveform_B;
 
-void FFT_Start(float voltage[], float fft_output[], float fft_mag[], uint16_t len, Wave wave_val[]);
 
-void Transmit_adc_to_int16(int16_t geted_val[]);
-double corr1000_200(int16_t *data, const int16_t *mask);
-double process_frequency(int16_t *res, int template_row) ;
-double Get_Delta_Phase( double phase_diff[]);
-double Get_Delta_Fre(double delta_phase[], double now_fre, double delay_time);
+void  FFT_StartADC(ADC_HandleTypeDef *hadc);
+void  FFT_PrepareData(uint16_t * adc_raw);
+void  FFT_Process(void);
+float FFT_GetPhase(uint32_t index);
+float FFT_GetBaseFrequency(uint32_t index);
+float FFT_CorrectFrequency(float phase1, float phase2, float base_freq);
 
-void FFT_Process(void);
-double DFT_Process(uint8_t wave_index);
+void FFT_Reset(uint16_t index);
+void FFT_Restore(uint16_t index);
+
+void FFT_FindHarmonicValues(void);
+void FFT_JudgeWaveform(void);
 
 #endif
