@@ -105,11 +105,11 @@ void DDS_SetFreq(double frequency)
     DDS_FREQ_WORD = (uint32_t)(268435456.0 / AD9833_SYSTEM_CLOCK * frequency);
     DDS_SetFreqWord(DDS_FREQ_WORD);
 
-    int index = 0;
-    index = HMI_AddString("set DDS_Frequency: ", index);
-    index = HMI_AddDouble(frequency, index, 4);
-    index = HMI_AddString(" Hz", index);
-    HMI_SendDebug(index);
+    // int index = 0;
+    // index = HMI_AddString("set DDS_Frequency: ", index);
+    // index = HMI_AddDouble(frequency, index, 4);
+    // index = HMI_AddString(" Hz", index);
+    // HMI_SendDebug(index);
 }
 
 

@@ -26,7 +26,7 @@ extern DDS_Waveform waveform_B;
 
 void  FFT_StartADC(ADC_HandleTypeDef *hadc);
 void  FFT_PrepareData(uint16_t * adc_raw);
-void  FFT_Process(void);
+void  FFT_Process(uint8_t double_wave_flag);
 float FFT_GetPhase(uint32_t index);
 float FFT_GetBaseFrequency(uint32_t index);
 float FFT_CorrectFrequency(float phase1, float phase2, float base_freq);

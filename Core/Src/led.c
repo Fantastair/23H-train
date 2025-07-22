@@ -18,6 +18,14 @@ void LED1_Off(void)
 }
 
 /**
+ * @brief  切换LED1状态
+ */
+void LED1_Toggle(void)
+{
+    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+}
+
+/**
  * @brief  打开LED2
  */
 void LED2_On(void)
@@ -31,4 +39,12 @@ void LED2_On(void)
 void LED2_Off(void)
 {
     HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+}
+
+/**
+ * @brief  切换LED2状态
+ */
+void LED2_Toggle(void)
+{
+    HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
 }

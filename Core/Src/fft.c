@@ -76,10 +76,10 @@ void FFT_PrepareData(uint16_t * adc_raw)
 
 /**
  * @brief 处理 FFT 计算
- * @param adc_raw ADC 原始数据
+ * @param double_wave_flag 双波形标志
  * @return 返回 FFT 相位
  */
-void FFT_Process(void)
+void FFT_Process(uint8_t double_wave_flag)
 {
     arm_mean_f32(fft_adc_buffer, SAMPLE_NUM, &fft_dc_offset);
 
@@ -95,14 +95,14 @@ void FFT_Process(void)
     FFT_Reset(fft_main_index_A);
     arm_max_f32(fft_outputbuf, FFT_LEN / 2, &fft_main_value_B, &fft_main_index_B);
     FFT_Restore(fft_main_index_A);
-    if (fft_main_index_A > fft_main_index_B)
+    if (double_wave_flag && fft_main_index_A > fft_main_index_B)
     {
         float32_t value_temp = fft_main_value_A;
         uint32_t index_temp = fft_main_index_A;
-        fft_main_value_B = value_temp;
         fft_main_value_A = fft_main_value_B;
-        fft_main_index_B = index_temp;
+        fft_main_value_B = value_temp;
         fft_main_index_A = fft_main_index_B;
+        fft_main_index_B = index_temp;
     }
 }
 
@@ -191,37 +191,68 @@ void FFT_FindHarmonicValues(void)
 }
 
 
-/**
- * @brief 判断波形类型
- */
+// /**
+//  * @brief 判断波形类型
+//  */
+// void FFT_JudgeWaveform(void)
+// {
+//     float freq_ratio = FFT_GetBaseFrequency(fft_main_index_B) / FFT_GetBaseFrequency(fft_main_index_A);    
+//     if (freq_ratio > 4.0f || freq_ratio < 2.0f)    // 如果频率比在2-4倍之外，认为没有叠加
+//     {
+//         // 如果3次谐波存在且幅度比小于15，判断为三角波
+//         if (fft_3_harmonic_index_A != 0 && fft_main_value_A / fft_3_harmonic_value_A < 15.0f) { waveform_A = TRIANGLE_WAVEFORM; }
+//         else { waveform_A = SINE_WAVEFORM; }
+//         if (fft_3_harmonic_index_B != 0 && fft_main_value_B / fft_3_harmonic_value_B < 15.0f) { waveform_B = TRIANGLE_WAVEFORM; }
+//         else { waveform_B = SINE_WAVEFORM; }
+//     }
+//     else     // 可能有频率叠加
+//     {
+//         // 处理较低频率分量
+//         if (fft_3_harmonic_index_A != 0 && fft_5_harmonic_index_A != 0 && 
+//             fft_main_value_A / fft_3_harmonic_value_A > 50.0f &&
+//             fft_3_harmonic_value_A / fft_5_harmonic_value_A > 1.0f &&
+//             fft_main_value_A / fft_5_harmonic_value_A > 100.0f) { waveform_A = SINE_WAVEFORM; }
+//         else { waveform_A = TRIANGLE_WAVEFORM; }
+//         // 处理较高频率分量
+//         if (fft_3_harmonic_index_B != 0 && fft_main_value_B - fft_3_harmonic_value_B < 500)
+//         {
+//             if (fft_5_harmonic_index_B != 0 && fft_main_value_B / fft_5_harmonic_value_B < 40.0f) { waveform_B = TRIANGLE_WAVEFORM; }
+//             else { waveform_B = SINE_WAVEFORM; }
+//         }
+//         else
+//         {
+//             if (fft_3_harmonic_index_B != 0 && fft_main_value_B / fft_3_harmonic_value_B < 15.0f) { waveform_B = TRIANGLE_WAVEFORM; }
+//             else { waveform_B = SINE_WAVEFORM; }
+//         }
+//     }
+// }
+
 void FFT_JudgeWaveform(void)
 {
     float freq_ratio = FFT_GetBaseFrequency(fft_main_index_B) / FFT_GetBaseFrequency(fft_main_index_A);    
     if (freq_ratio > 4.0f || freq_ratio < 2.0f)    // 如果频率比在2-4倍之外，认为没有叠加
     {
         // 如果3次谐波存在且幅度比小于15，判断为三角波
-        if (fft_3_harmonic_index_A != 0 && fft_outputbuf[fft_main_index_A] / fft_outputbuf[fft_3_harmonic_index_A] < 15.0f) { waveform_A = TRIANGLE_WAVEFORM; }
+        if (fft_3_harmonic_index_A != 0 && fft_main_value_A / fft_3_harmonic_value_A < 15.0f) { waveform_A = TRIANGLE_WAVEFORM; }
         else { waveform_A = SINE_WAVEFORM; }
-        if (fft_3_harmonic_index_B != 0 && fft_outputbuf[fft_main_index_B] / fft_outputbuf[fft_3_harmonic_index_B] < 15.0f) { waveform_B = TRIANGLE_WAVEFORM; }
+        if (fft_3_harmonic_index_B != 0 && fft_main_value_B / fft_3_harmonic_value_B < 15.0f) { waveform_B = TRIANGLE_WAVEFORM; }
         else { waveform_B = SINE_WAVEFORM; }
     }
     else     // 可能有频率叠加
     {
-        // 处理较低频率分量
-        if (fft_3_harmonic_index_A != 0 && fft_5_harmonic_index_A != 0 && 
-            fft_outputbuf[fft_main_index_A] / fft_outputbuf[fft_3_harmonic_index_A] > 50.0f &&
-            fft_outputbuf[fft_3_harmonic_index_A] / fft_outputbuf[fft_5_harmonic_index_A] > 2.0f &&
-            fft_outputbuf[fft_main_index_A] / fft_outputbuf[fft_5_harmonic_index_A] < 100.0f) { waveform_A = SINE_WAVEFORM; }
-        else { waveform_A = TRIANGLE_WAVEFORM; }
-        // 处理较高频率分量
-        if (fft_3_harmonic_index_B != 0 && fft_outputbuf[fft_main_index_B] - fft_outputbuf[fft_3_harmonic_index_B] < 500)
+        if (fft_3_harmonic_index_A != 0 && fft_main_value_A / fft_3_harmonic_value_A >0.5)
         {
-            if (fft_5_harmonic_index_B != 0 && fft_outputbuf[fft_main_index_B] / fft_outputbuf[fft_5_harmonic_index_B] < 40.0f) { waveform_B = TRIANGLE_WAVEFORM; }
+            if (fft_3_harmonic_index_A != 0 && fft_5_harmonic_index_A != 0 && 
+                fft_main_value_A / fft_5_harmonic_value_A > 70.0f) { waveform_A = SINE_WAVEFORM; }
+            else { waveform_A = TRIANGLE_WAVEFORM; }
+            if (fft_5_harmonic_index_B != 0 && fft_main_value_B / fft_5_harmonic_value_B < 40.0f) { waveform_B = TRIANGLE_WAVEFORM; }
             else { waveform_B = SINE_WAVEFORM; }
         }
-        else
+        else    // 如果3次谐波存在且幅度比小于15，判断为三角波
         {
-            if (fft_3_harmonic_index_B != 0 && fft_outputbuf[fft_main_index_B] / fft_outputbuf[fft_3_harmonic_index_B] < 15.0f) { waveform_B = TRIANGLE_WAVEFORM; }
+            if (fft_3_harmonic_index_A != 0 && fft_main_value_A / fft_3_harmonic_value_A < 15.0f) { waveform_A = TRIANGLE_WAVEFORM; }
+            else { waveform_A = SINE_WAVEFORM; }
+            if (fft_3_harmonic_index_B != 0 && fft_main_value_B / fft_3_harmonic_value_B < 15.0f) { waveform_B = TRIANGLE_WAVEFORM; }
             else { waveform_B = SINE_WAVEFORM; }
         }
     }

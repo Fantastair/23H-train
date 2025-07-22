@@ -68,9 +68,9 @@ uint8_t process_state = 0;    // 处理状态
 float freqA_temp = 0.0f;
 float freqA_temp_ = 0.0f;
 
-uint16_t Word_count[101] = { 0 };
+uint32_t Word_count[201] = { 0 };
 uint32_t center_Word = 0;
-uint16_t total_fine_count = 4096;
+uint16_t total_fine_count = 1024;
 uint16_t fine_count = 0;
 
 /* USER CODE END 0 */
@@ -128,7 +128,7 @@ int main(void)
       {
         fft_debug = 0;
         FFT_PrepareData(adc_raw);
-        FFT_Process();
+        FFT_Process(1);
         HMI_UpdateADC();
         HMI_UpdateFFT();
         int index = 0;
@@ -147,23 +147,22 @@ int main(void)
         switch (process_state)
         {
         case 1:    // 重建信号
+          LED1_On();
           FFT_PrepareData(adc_raw);
-          FFT_Process();
+          FFT_Process(1);
           FFT_FindHarmonicValues();
           FFT_JudgeWaveform();
 
           float phase_A1 = FFT_GetPhase(fft_main_index_A);
           float phase_B1 = FFT_GetPhase(fft_main_index_B);
           FFT_PrepareData(adc_raw + SAMPLE_NUM);
-          FFT_Process();
+          FFT_Process(1);
           float phase_A2 = FFT_GetPhase(fft_main_index_A);
           float phase_B2 = FFT_GetPhase(fft_main_index_B);
           float freq_A = FFT_CorrectFrequency(phase_A1, phase_A2, FFT_GetBaseFrequency(fft_main_index_A));
           float freq_B = FFT_CorrectFrequency(phase_B1, phase_B2, FFT_GetBaseFrequency(fft_main_index_B));
           DDS_SetWaveform(waveform_A);
           DDS_SetFreq(freq_A);
-          center_Word = DDS_GetFreqWord();
-          Word_count[50] = 1;
           fine_count = 0;
 
           HMI_DrawWaveform(freq_A, freq_B, waveform_A, waveform_B, fft_main_value_A, fft_main_value_B);
@@ -182,35 +181,66 @@ int main(void)
           if (adc_completed == 1)
           {
             FFT_PrepareData(adc_raw);
-            FFT_Process();
+            FFT_Process(1);
             float phase_A1 = FFT_GetPhase(fft_main_index_A);
             FFT_PrepareData(adc_raw + SAMPLE_NUM);
-            FFT_Process();
+            FFT_Process(1);
             float phase_A2 = FFT_GetPhase(fft_main_index_A);
             freqA_temp = FFT_CorrectFrequency(phase_A1, phase_A2, FFT_GetBaseFrequency(fft_main_index_A));
-            DDS_SetFreq(freqA_temp);
 
-            // HMI_ShowFreqA(freqA_temp, freqA_temp_);
+            HMI_ShowFreqA(freqA_temp, freqA_temp_);
 
             FFT_StartADC(&hadc3);
           }
           else if (adc_completed == 2)
           {
             FFT_PrepareData(adc_raw);
-            FFT_Process();
+            FFT_Process(0);
             float phase_A1_ = FFT_GetPhase(fft_main_index_A);
             FFT_PrepareData(adc_raw + SAMPLE_NUM);
-            FFT_Process();
+            FFT_Process(0);
             float phase_A2_ = FFT_GetPhase(fft_main_index_A);
             freqA_temp_ = FFT_CorrectFrequency(phase_A1_, phase_A2_, FFT_GetBaseFrequency(fft_main_index_A));
-            // HMI_ShowFreqA(freqA_temp, freqA_temp_);
+            HMI_ShowFreqA(freqA_temp, freqA_temp_);
 
             float diff = freqA_temp - freqA_temp_;
             if (diff < 0) { diff = -diff; }
             if (freqA_temp_ < freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() + ((int)(1 + diff))); }
             else if (freqA_temp_ > freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() - ((int)(1 + diff))); }
-            Word_count[50 + DDS_GetFreqWord() - center_Word]++;
-            FFT_StartADC(&hadc1);
+            fine_count++;
+            if (fine_count == total_fine_count / 2)
+            {
+              center_Word = DDS_GetFreqWord();
+              Word_count[100] = 1;
+              for (uint16_t i = 0; i < sizeof(Word_count) / sizeof(Word_count[0]); i++)
+              {
+                Word_count[i] = 0;
+              }              
+            }
+            else if (fine_count > total_fine_count / 2)
+            {
+              Word_count[100 + DDS_GetFreqWord() - center_Word]++;
+            }
+            if (fine_count >= total_fine_count)
+            {
+              process_state = 0;
+              uint32_t Word_temp = 0;
+              uint16_t count = 0;
+              for (uint32_t i = center_Word - 100; i <= center_Word + 100; i++)
+              {
+                Word_temp += Word_count[100 + i - center_Word] * i;
+                count += Word_count[100 + i - center_Word];
+              }
+              DDS_SetFreqWord(Word_temp / count);
+              index = 0;
+              index = HMI_AddString("main.t0.txt=\"重建完成\"", index);
+              HMI_SendOrder(index);
+              LED1_Off();
+            }
+            else
+            {
+              FFT_StartADC(&hadc1);
+            }
           }
           break;
         default:
