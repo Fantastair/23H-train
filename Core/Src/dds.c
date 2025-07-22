@@ -5,6 +5,7 @@
 
 double AD9833_SYSTEM_CLOCK = 25000000.0;
 uint32_t DDS_FREQ_WORD = 0;
+uint16_t wave_code = 0;
 
 
 /**
@@ -64,24 +65,28 @@ void DDS_SetWaveform(DDS_Waveform waveform)
     case SINE_WAVEFORM:
         // 设置为正弦波
         DDS_WriteData(0x2000);
+        wave_code = 0x2000;
         index = HMI_AddString("set DDS_WAVEFORM: ", index);
         index = HMI_AddString("SINE_WAVEFORM", index);
         break;
     case SQUARE_WAVEFORM:
         // 设置为方波
         DDS_WriteData(0x2028);
+        wave_code = 0x2028;
         index = HMI_AddString("set DDS_WAVEFORM: ", index);
         index = HMI_AddString("SQUARE_WAVEFORM", index);
         break;
     case TRIANGLE_WAVEFORM:
         // 设置为三角波
         DDS_WriteData(0x2002);
+        wave_code = 0x2002;
         index = HMI_AddString("set DDS_WAVEFORM: ", index);
         index = HMI_AddString("TRIANGLE_WAVEFORM", index);
         break;
     default:
         // 无效的波形类型
         DDS_WriteData(0x00C0);
+        wave_code = 0x00C0;
         index = HMI_AddString("set DDS_WAVEFORM: ", index);
         index = HMI_AddString("NONE_WAVEFORM", index);
         break;
@@ -124,7 +129,7 @@ void DDS_SetFreqWord(uint32_t freq)
     lsb_14bits |= 0x4000;
     msb_14bits |= 0x4000;
 
-    // DDS_WriteData(0x2100);
+    DDS_WriteData(wave_code);
     DDS_WriteData(lsb_14bits);
     DDS_WriteData(msb_14bits);
 }

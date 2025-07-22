@@ -68,6 +68,11 @@ uint8_t process_state = 0;    // 处理状态
 float freqA_temp = 0.0f;
 float freqA_temp_ = 0.0f;
 
+uint16_t Word_count[101] = { 0 };
+uint32_t center_Word = 0;
+uint16_t total_fine_count = 4096;
+uint16_t fine_count = 0;
+
 /* USER CODE END 0 */
 
 /**
@@ -157,6 +162,9 @@ int main(void)
           float freq_B = FFT_CorrectFrequency(phase_B1, phase_B2, FFT_GetBaseFrequency(fft_main_index_B));
           DDS_SetWaveform(waveform_A);
           DDS_SetFreq(freq_A);
+          center_Word = DDS_GetFreqWord();
+          Word_count[50] = 1;
+          fine_count = 0;
 
           HMI_DrawWaveform(freq_A, freq_B, waveform_A, waveform_B, fft_main_value_A, fft_main_value_B);
 
@@ -180,8 +188,9 @@ int main(void)
             FFT_Process();
             float phase_A2 = FFT_GetPhase(fft_main_index_A);
             freqA_temp = FFT_CorrectFrequency(phase_A1, phase_A2, FFT_GetBaseFrequency(fft_main_index_A));
+            DDS_SetFreq(freqA_temp);
 
-            HMI_ShowFreqA(freqA_temp, freqA_temp_);
+            // HMI_ShowFreqA(freqA_temp, freqA_temp_);
 
             FFT_StartADC(&hadc3);
           }
@@ -194,12 +203,13 @@ int main(void)
             FFT_Process();
             float phase_A2_ = FFT_GetPhase(fft_main_index_A);
             freqA_temp_ = FFT_CorrectFrequency(phase_A1_, phase_A2_, FFT_GetBaseFrequency(fft_main_index_A));
+            // HMI_ShowFreqA(freqA_temp, freqA_temp_);
 
-            if (freqA_temp_ < freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() + 1); }
-            else if (freqA_temp_ > freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() - 1); }
-
-            HMI_ShowFreqA(freqA_temp, freqA_temp_);
-
+            float diff = freqA_temp - freqA_temp_;
+            if (diff < 0) { diff = -diff; }
+            if (freqA_temp_ < freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() + ((int)(1 + diff))); }
+            else if (freqA_temp_ > freqA_temp) { DDS_SetFreqWord(DDS_GetFreqWord() - ((int)(1 + diff))); }
+            Word_count[50 + DDS_GetFreqWord() - center_Word]++;
             FFT_StartADC(&hadc1);
           }
           break;

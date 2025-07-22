@@ -21,6 +21,7 @@ void HMI_Init(void)
     HAL_UART_Receive_IT(&huart1, receive_byte, 1);
     HAL_Delay(500);
     int index = 0;
+    index = HMI_AddString("\xff\xff\xff", index);
     index = HMI_AddString("debug.t0.txt=\"\"", index);
     HMI_SendOrder(index);
     index = 0;

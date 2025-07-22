@@ -21162,5 +21162,1160 @@
             "-o",
             "build/02.2025train/Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.o"
         ]
+    },
+    {
+        "directory": "MDK-ARM",
+        "file": "MDK-ARM/startup_stm32f407xx.s",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "MDK-ARM/startup_stm32f407xx.s",
+            "-o",
+            "build/02.2025train/MDK-ARM/startup_stm32f407xx.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/dds.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/dds.c",
+            "-o",
+            "build/02.2025train/Core/Src/dds.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/led.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/led.c",
+            "-o",
+            "build/02.2025train/Core/Src/led.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/hmi.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/hmi.c",
+            "-o",
+            "build/02.2025train/Core/Src/hmi.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/key.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/key.c",
+            "-o",
+            "build/02.2025train/Core/Src/key.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/fft.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/fft.c",
+            "-o",
+            "build/02.2025train/Core/Src/fft.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/main.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/main.c",
+            "-o",
+            "build/02.2025train/Core/Src/main.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/gpio.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/gpio.c",
+            "-o",
+            "build/02.2025train/Core/Src/gpio.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/adc.c",
+            "-o",
+            "build/02.2025train/Core/Src/adc.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/dma.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/dma.c",
+            "-o",
+            "build/02.2025train/Core/Src/dma.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/tim.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/tim.c",
+            "-o",
+            "build/02.2025train/Core/Src/tim.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/usart.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/usart.c",
+            "-o",
+            "build/02.2025train/Core/Src/usart.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/stm32f4xx_it.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/stm32f4xx_it.c",
+            "-o",
+            "build/02.2025train/Core/Src/stm32f4xx_it.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/stm32f4xx_hal_msp.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/stm32f4xx_hal_msp.c",
+            "-o",
+            "build/02.2025train/Core/Src/stm32f4xx_hal_msp.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/system_stm32f4xx.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/system_stm32f4xx.c",
+            "-o",
+            "build/02.2025train/Core/Src/system_stm32f4xx.o"
+        ]
+    },
+    {
+        "directory": "Middlewares/ST/ARM/DSP/Lib",
+        "file": "Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib",
+            "-o",
+            "build/02.2025train/Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.o"
+        ]
+    },
+    {
+        "directory": "MDK-ARM",
+        "file": "MDK-ARM/startup_stm32f407xx.s",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "MDK-ARM/startup_stm32f407xx.s",
+            "-o",
+            "build/02.2025train/MDK-ARM/startup_stm32f407xx.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/dds.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/dds.c",
+            "-o",
+            "build/02.2025train/Core/Src/dds.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/led.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/led.c",
+            "-o",
+            "build/02.2025train/Core/Src/led.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/hmi.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/hmi.c",
+            "-o",
+            "build/02.2025train/Core/Src/hmi.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/key.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/key.c",
+            "-o",
+            "build/02.2025train/Core/Src/key.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/fft.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/fft.c",
+            "-o",
+            "build/02.2025train/Core/Src/fft.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/main.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/main.c",
+            "-o",
+            "build/02.2025train/Core/Src/main.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/gpio.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/gpio.c",
+            "-o",
+            "build/02.2025train/Core/Src/gpio.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/adc.c",
+            "-o",
+            "build/02.2025train/Core/Src/adc.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/dma.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/dma.c",
+            "-o",
+            "build/02.2025train/Core/Src/dma.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/tim.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/tim.c",
+            "-o",
+            "build/02.2025train/Core/Src/tim.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/usart.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/usart.c",
+            "-o",
+            "build/02.2025train/Core/Src/usart.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/stm32f4xx_it.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/stm32f4xx_it.c",
+            "-o",
+            "build/02.2025train/Core/Src/stm32f4xx_it.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/stm32f4xx_hal_msp.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/stm32f4xx_hal_msp.c",
+            "-o",
+            "build/02.2025train/Core/Src/stm32f4xx_hal_msp.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/system_stm32f4xx.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/system_stm32f4xx.c",
+            "-o",
+            "build/02.2025train/Core/Src/system_stm32f4xx.o"
+        ]
+    },
+    {
+        "directory": "Middlewares/ST/ARM/DSP/Lib",
+        "file": "Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib",
+            "-o",
+            "build/02.2025train/Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.o"
+        ]
+    },
+    {
+        "directory": "MDK-ARM",
+        "file": "MDK-ARM/startup_stm32f407xx.s",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "MDK-ARM/startup_stm32f407xx.s",
+            "-o",
+            "build/02.2025train/MDK-ARM/startup_stm32f407xx.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/dds.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/dds.c",
+            "-o",
+            "build/02.2025train/Core/Src/dds.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/led.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/led.c",
+            "-o",
+            "build/02.2025train/Core/Src/led.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/hmi.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/hmi.c",
+            "-o",
+            "build/02.2025train/Core/Src/hmi.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/key.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/key.c",
+            "-o",
+            "build/02.2025train/Core/Src/key.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/fft.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/fft.c",
+            "-o",
+            "build/02.2025train/Core/Src/fft.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/main.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/main.c",
+            "-o",
+            "build/02.2025train/Core/Src/main.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/gpio.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/gpio.c",
+            "-o",
+            "build/02.2025train/Core/Src/gpio.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/adc.c",
+            "-o",
+            "build/02.2025train/Core/Src/adc.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/dma.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/dma.c",
+            "-o",
+            "build/02.2025train/Core/Src/dma.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/tim.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/tim.c",
+            "-o",
+            "build/02.2025train/Core/Src/tim.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/usart.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/usart.c",
+            "-o",
+            "build/02.2025train/Core/Src/usart.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/stm32f4xx_it.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/stm32f4xx_it.c",
+            "-o",
+            "build/02.2025train/Core/Src/stm32f4xx_it.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/stm32f4xx_hal_msp.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/stm32f4xx_hal_msp.c",
+            "-o",
+            "build/02.2025train/Core/Src/stm32f4xx_hal_msp.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.o"
+        ]
+    },
+    {
+        "directory": "Drivers/STM32F4xx_HAL_Driver/Src",
+        "file": "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c",
+            "-o",
+            "build/02.2025train/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.o"
+        ]
+    },
+    {
+        "directory": "Core/Src",
+        "file": "Core/Src/system_stm32f4xx.c",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Core/Src/system_stm32f4xx.c",
+            "-o",
+            "build/02.2025train/Core/Src/system_stm32f4xx.o"
+        ]
+    },
+    {
+        "directory": "Middlewares/ST/ARM/DSP/Lib",
+        "file": "Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib",
+        "arguments": [
+            "C:/Users/23642/AppData/Local/Keil_v5/ARM/ARMCLANG/bin/armclang.exe",
+            "-c",
+            "Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib",
+            "-o",
+            "build/02.2025train/Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.o"
+        ]
     }
 ]
